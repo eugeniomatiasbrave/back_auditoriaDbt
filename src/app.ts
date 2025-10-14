@@ -1,9 +1,14 @@
 import express from "express";
-import medicationRoutes from "./routes/medicationRoutes.js";
+import { initMySql } from "./config/connectdb.js";
+import config from "./config/config.env.js";
+import dotenv from "dotenv";
 import cors from "cors";
+import medicationRoutes from "./routes/medicationRoutes.js";
+
+dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = config.app.port || 3000;
 
 // Configurar CORS
 app.use(
@@ -20,6 +25,17 @@ app.use(express.urlencoded({ extended: true }));
 // Rutas de Medicamentos
 app.use("/api/medications", medicationRoutes);
 
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// Inicializar base de datos y luego el servidor
+const startServer = async () => {
+  try {
+    await initMySql();
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (error) {
+    console.error("Error al inicializar la aplicación:", error);
+    process.exit(1);
+  }
+};
+
+startServer();
