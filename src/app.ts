@@ -4,6 +4,7 @@ import config from "./config/config.env.js";
 import dotenv from "dotenv";
 import cors from "cors";
 import medicationRoutes from "./routes/medicationRoutes.js";
+import categoryRoutes from "./routes/categoryRoutes.js";
 
 dotenv.config();
 
@@ -24,6 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // Rutas de Medicamentos
 app.use("/api/medications", medicationRoutes);
+app.use("/api/categories", categoryRoutes);
 
 // Inicializar base de datos y luego el servidor
 const startServer = async () => {
