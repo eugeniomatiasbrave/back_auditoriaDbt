@@ -1,6 +1,6 @@
 import { Request, Response } from "express";		
 import { UserService } from "../services/userService.js";
-import { IUser } from "../types/api.js";
+//import { IUser } from "../types/api.js";
 
 const userService = new UserService();
 
@@ -32,17 +32,6 @@ export class UserController {
 	  }
 	} catch (error) {
 	  res.status(500).json({ message: "Error al obtener el usuario", error });
-	}
-  }
-  
-  // Crear un nuevo usuario
-  static async createUser(req: Request, res: Response) {
-	const userData: IUser = req.body;
-	try {
-	  const newUser = await userService.create(userData);
-	  res.status(201).json(newUser);
-	} catch (error) {
-	  res.status(500).json({ message: "Error al crear el usuario", error });
 	}
   }
   
