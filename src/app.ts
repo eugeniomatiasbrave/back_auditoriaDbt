@@ -3,8 +3,10 @@ import { initMySql } from "./config/connectdb.js";
 import config from "./config/config.env.js";
 import dotenv from "dotenv";
 import cors from "cors";
-import medicationRoutes from "./routes/medicationRoutes.js";
-import categoryRoutes from "./routes/categoryRoutes.js";
+import medicationsRoutes from "./routes/medicationsRoutes.js";
+import categoriesRoutes from "./routes/categoriesRoutes.js";
+import usersRoutes from "./routes/usersRoutes.js";
+import sessionsRoutes from "./routes/sessionsRoutes.js";
 
 dotenv.config();
 
@@ -24,8 +26,10 @@ app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas de Medicamentos
-app.use("/api/medications", medicationRoutes);
-app.use("/api/categories", categoryRoutes);
+app.use("/api/medications", medicationsRoutes);
+app.use("/api/categories", categoriesRoutes);
+app.use("/api/users", usersRoutes);
+app.use("/api/sessions", sessionsRoutes);
 
 // Inicializar base de datos y luego el servidor
 const startServer = async () => {
