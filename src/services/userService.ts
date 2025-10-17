@@ -11,6 +11,10 @@ export class UserService {
   async getById(id: string) {
 	return await UserModel.findByPk(id);
   }
+
+  async findByEmail(email: string) {
+  return await UserModel.findOne({ where: { email } });
+  }
   
   // Crear un nuevo usuario
   async create(userData: any) {
