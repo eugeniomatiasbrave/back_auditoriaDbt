@@ -7,6 +7,7 @@ import medicationsRoutes from "./routes/medicationsRoutes.js";
 import categoriesRoutes from "./routes/categoriesRoutes.js";
 import usersRoutes from "./routes/usersRoutes.js";
 import sessionsRoutes from "./routes/sessionsRoutes.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 
@@ -23,6 +24,7 @@ app.use(
 
 // Middlewares de parsing
 app.use(express.json({ limit: "10mb" }));
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // Rutas de Medicamentos

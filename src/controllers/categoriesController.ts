@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { CategoryService } from "../services/categoryService.js";
+import CategoryService from "../services/categoryService.js";
 
 const categoryService = new CategoryService();
 
-export class CategoryController {
+export default class CategoryController {
   static async getAllCategories(req: Request, res: Response) {
     try {
       const categories = await categoryService.getAll();

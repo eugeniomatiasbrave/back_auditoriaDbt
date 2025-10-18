@@ -1,10 +1,10 @@
 import { Request, Response } from "express";		
-import { UserService } from "../services/userService.js";
+import UserService from "../services/userService.js";
 //import { IUser } from "../types/api.js";
 
 const userService = new UserService();
 
-export class UserController {
+export default class UserController {
   // Obtener todos los usuarios
   static async getAllUsers(req: Request, res: Response) {
 	try {

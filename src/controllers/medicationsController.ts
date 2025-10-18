@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
-import { MedicationService } from "../services/medicationService.js";
+import MedicationService from "../services/medicationService.js";
 
 const medicationService = new MedicationService();
 
-export class MedicationController {
+export default class MedicationController {
   static async getAllMedications(req: Request, res: Response) {
     // GET /api/medications
     try {

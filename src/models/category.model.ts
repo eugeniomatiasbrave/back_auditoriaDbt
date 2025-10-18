@@ -1,7 +1,7 @@
 import db from "../config/connectdb.js";
 import { DataTypes } from "sequelize";
 
-export const CategoryModel = db.define(
+const CategoryModel = db.define(
   "Category",
   {
     id: {
@@ -24,3 +24,4 @@ export const CategoryModel = db.define(
     timestamps: true,
   }
 );
+export default CategoryModel;

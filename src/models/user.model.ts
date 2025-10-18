@@ -1,7 +1,10 @@
 import db from "../config/connectdb.js";
 import { DataTypes } from "sequelize";
+import { IUser } from "../types/api.js";
 
-export const UserModel = db.define(
+export interface UserModel extends IUser {}
+
+const UserModel = db.define(
   "User",
   {
     id: {
@@ -38,3 +41,4 @@ export const UserModel = db.define(
     timestamps: true,
   }
 );
+export default UserModel;

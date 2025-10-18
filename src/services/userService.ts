@@ -1,42 +1,36 @@
-import { UserModel } from "../models/user.model.js";
+import UserModel from "../models/user.model.js";
 
-
-export class UserService {
+export default class UserService {
   // Obtener todos los usuarios
   async getAll() {
-	return await UserModel.findAll();
-  }	
-
+    return await UserModel.findAll();
+  }
   // Obtener un usuario por ID
   async getById(id: string) {
-	return await UserModel.findByPk(id);
+    return await UserModel.findByPk(id);
   }
-
   async findByEmail(email: string) {
-  return await UserModel.findOne({ where: { email } });
+    return await UserModel.findOne({ where: { email } });
   }
-  
   // Crear un nuevo usuario
   async create(userData: any) {
-	return await UserModel.create(userData);
+    return await UserModel.create(userData);
   }
-
   // Actualizar un usuario existente
   async update(id: string, userData: any) {
-	const user = await UserModel.findByPk(id);
-	if (user) {
-	  return await user.update(userData);
-	}
-	return null;
+    const user = await UserModel.findByPk(id);
+    if (user) {
+      return await user.update(userData);
+    }
+    return null;
   }
-  
-  // Eliminar un usuario	
+  // Eliminar un usuario
   async delete(id: string) {
-	const user = await UserModel.findByPk(id);
-	if (user) {
-	  await user.destroy();
-	  return true;
-	}
-	return false;
+    const user = await UserModel.findByPk(id);
+    if (user) {
+      await user.destroy();
+      return true;
+    }
+    return false;
   }
-}
+};

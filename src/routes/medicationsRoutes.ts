@@ -1,9 +1,8 @@
 import { Router } from "express";
-import { MedicationController } from "../controllers/medicationsController.js";
+import MedicationController from "../controllers/medicationsController.js";
 
 const router = Router();
 
-// GET /api/medications - Obtener todos los medicamentos
-router.get("/", MedicationController.getAllMedications);
+router.get("/", MedicationController.getAllMedications); // GET /api/medications - Obtener todos los medicamentos
 
 export default router;

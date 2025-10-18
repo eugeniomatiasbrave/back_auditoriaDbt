@@ -1,11 +1,10 @@
 
 import { Router } from "express";
-import { SessionController } from "../controllers/sessionsController.js";
+import SessionController from "../controllers/sessionsController.js";
 
 const router = Router();
 
-// Ruta para registro
-router.post("/register", SessionController.register);
-router.post("/login", SessionController.login);
+router.post("/register", SessionController.register); // Registro de usuario
+router.post("/login", SessionController.login); // Login de usuario
 
 export default router;

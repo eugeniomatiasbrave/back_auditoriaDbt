@@ -1,9 +1,9 @@
 // ODM sequelize model definition for Medication
 import db from "../config/connectdb.js";
 import { DataTypes } from "sequelize";
-import { CategoryModel } from "./category.model.js";
+import CategoryModel from "./category.model.js";
 
-export const MedicationModel = db.define(
+const MedicationModel = db.define(
   "Medication",
   {
     id: {
@@ -65,3 +65,4 @@ export const MedicationModel = db.define(
     timestamps: true,
   }
 );
+export default MedicationModel;
