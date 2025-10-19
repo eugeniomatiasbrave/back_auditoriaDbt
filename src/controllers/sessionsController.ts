@@ -105,5 +105,26 @@ export default class SessionController {
         .status(500)
         .json({ success: false, message: "Error en el login", data: null });
     }
-  }
-}
+  };
+
+  static async logout(req: Request, res: Response) {
+    try {
+      res
+        .clearCookie("token", {
+          httpOnly: true,
+          secure: process.env.NODE_ENV === "production",
+          sameSite: "strict",
+        })
+        .status(200)
+        .json({
+          success: true,
+          message: "Logout exitoso",
+        });
+    } catch (error) {
+      console.error("Error en el logout:", error);
+      res
+        .status(500)
+        .json({ success: false, message: "Error en el logout", data: null });
+    }
+  };
+};
