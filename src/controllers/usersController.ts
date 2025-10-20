@@ -1,78 +1,46 @@
-import { Request, Response } from "express";		
-import UserService from "../services/userService.js";
-//import { IUser } from "../types/api.js";
+import { Request, Response } from "express";
+import services from "../services/index.js";
+import { IUser } from "../types/api.js";
 
+const { UserService } = services;
 const userService = new UserService();
 
-export default class UserController {
-  // Obtener todos los usuarios
-  static async getAllUsers(req: Request, res: Response) {
-	try {
-	  const users = await userService.getAll();
-	  res.json(users);
-	} catch (error) {
-	  res.status(500).json({ message: "Error al obtener los usuarios", error });
-	}
+// Extiende la interfaz Request para incluir 'user'
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
   }
-  
-  // Obtener un usuario por ID	
-  static async getUserById(req: Request, res: Response) {
-	const { id } = req.params;
-
-	if (typeof id !== "string") {
-	  return res.status(400).json({ message: "ID de usuario no proporcionado o inválido" });
-	}
-
-	try {
-	  const user = await userService.getById(id);
-	  if (user) {
-		res.json(user);
-	  } else {
-		res.status(404).json({ message: "Usuario no encontrado" });
-	  }
-	} catch (error) {
-	  res.status(500).json({ message: "Error al obtener el usuario", error });
-	}
-  }
-  
-  // Actualizar un usuario existente
-  static async updateUser(req: Request, res: Response) {
-	const { id } = req.params;
-	const userData = req.body;
-
-	if (typeof id !== "string") {
-	  return res.status(400).json({ message: "ID de usuario no proporcionado o inválido" });
-	}
-
-	try {
-	  const updatedUser = await userService.update(id, userData);
-	  if (updatedUser) {
-		res.json(updatedUser);
-	  } else {
-		res.status(404).json({ message: "Usuario no encontrado" });
-	  }
-	} catch (error) {
-	  res.status(500).json({ message: "Error al actualizar el usuario", error });
-	}
-  }
-
-  // Eliminar un usuario
-  static async deleteUser(req: Request, res: Response) {
-	const { id } = req.params;
-
-	if (typeof id !== "string") {
-	  return res.status(400).json({ message: "ID de usuario no proporcionado o inválido" });
-	}
-
-	try {
-	  const deleted = await userService.delete(id);
-	  if (deleted) {
-		res.json({ message: "Usuario eliminado correctamente" });
-	  } else {
-		res.status(404).json({ message: "Usuario no encontrado" });
-	  }
-	} catch (error) {
-	  res.status(500).json({ message: "Error al eliminar el usuario", error });
-	}
-	  }
 }
+
+
+
+export default class UserController {
+  // Obtener el perfil del usuario autenticado
+  static async getUserProfile(req: Request, res: Response) {
+
+    const user = req.user; // Asumiendo que el middleware de autenticación añade el usuario a la solicitud
+    if (!user) {
+      return res.status(401).json({ success: false, message: "Usuario no autenticado" });
+    }
+
+    const userFound = await userService.getById(String(user.id));
+
+    if (!userFound) {
+      return res.status(404).json({ success: false, message: "Usuario no encontrado" });
+    }
+
+    const userPlain = userFound.toJSON ? userFound.toJSON() : userFound;
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        id: userPlain.id,
+        firstName: userPlain.firstName,
+        lastName: userPlain.lastName,
+        email: userPlain.email,
+      },
+    });
+  };
+};

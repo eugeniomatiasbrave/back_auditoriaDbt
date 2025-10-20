@@ -62,28 +62,32 @@ export default class SessionController {
     }
 
     try {
-      // Verificar las credenciales del usuario
-      const user: Model<IUser> | null = await userService.findByEmail(email);
+      // Verificar si el usuario existe a través del email
+      const userFound: Model<IUser> | null = await userService.findByEmail(email);
 
       //console.log(user);
-      if (!user) {
+      if (!userFound) {
         return res.status(401).json({
           success: false,
-          message: "Credenciales inválidas",
+          message: "Usuario no encontrado",
           data: null,
         });
       }
 
-      // Generar el token JWT
-      if (!user) {
+      const plainUserFound = userFound.get({ plain: true }) as IUser; // Convertir a objeto plano
+
+      const isPasswordValid = await authService.validatePassword(
+        password, plainUserFound);
+
+      if (!isPasswordValid) {
         return res.status(401).json({
           success: false,
-          message: "El usuario no tiene un email válido",
+          message: "Contraseña incorrecta",
           data: null,
         });
       }
-      const plainUser = user.get({ plain: true }) as IUser; // Convertir a objeto plano
-      const token = tokenService.generateToken(plainUser);
+
+      const token = tokenService.generateToken(plainUserFound);
 
       console.log("Token generado:", token);
 
@@ -97,7 +101,7 @@ export default class SessionController {
         .json({
           success: true,
           message: "Login exitoso",
-          data: plainUser,
+          data: plainUserFound,
         });
     } catch (error) {
       console.error("Error en el login:", error);

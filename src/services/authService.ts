@@ -6,7 +6,7 @@ export default class AuthService {
     const salts = await bcrypt.genSalt(10);
     return bcrypt.hash(password, salts);
   };
-  async validatePassword(password: string, user: IUser): Promise<boolean> {
-    return bcrypt.compare(password, user.password ?? "");
+  async validatePassword(password: string, plainUserFound: IUser): Promise<boolean> {
+    return bcrypt.compare(password, plainUserFound.password ?? "");
   };
 };
