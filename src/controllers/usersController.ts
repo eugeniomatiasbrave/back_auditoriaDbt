@@ -15,7 +15,6 @@ declare global {
 }
 
 
-
 export default class UserController {
   // Obtener el perfil del usuario autenticado
   static async getUserProfile(req: Request, res: Response) {
