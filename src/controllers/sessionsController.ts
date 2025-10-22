@@ -38,7 +38,7 @@ export default class SessionController {
       res.status(201).json({
         success: true,
         message: "Usuario registrado exitosamente",
-        user: newUser,
+        data: newUser,
       });
     } catch (error) {
       console.error("Error en el registro:", error);
