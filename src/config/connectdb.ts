@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import config from "./config.env.js";
 import mysql from "mysql2/promise";
 
-const { dialect, host, port, username, password, database } = config.db;
+const { host, port, username, password, database, logging } = config.db;
 
 const createDatabase = async () => {
   try {
@@ -31,9 +31,9 @@ const createDatabase = async () => {
 
 const db = new Sequelize(database, username, password, {
   host: host,
-  dialect: (dialect as any) || "mysql",
+  dialect: "mysql",
   port: Number(port),
-  logging: false, // Desactivar logs de SQL en desarrollo
+  logging: logging ? console.log : false,
 });
 
 export const initMySql = async () => {
