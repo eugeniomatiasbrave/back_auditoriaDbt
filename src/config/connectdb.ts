@@ -51,5 +51,4 @@ export const initMySql = async () => {
     process.exit(1); // Terminar la aplicación si no puede conectar
   }
 };
-
 export default db;
