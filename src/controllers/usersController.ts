@@ -20,6 +20,9 @@ export default class UserController {
   static async getUserProfile(req: Request, res: Response) {
 
     const user = req.user; // Asumiendo que el middleware de autenticación añade el usuario a la solicitud
+    
+    //console.log("Usuario autenticado:", user);
+
     if (!user) {
       return res.status(401).json({ success: false, message: "Usuario no autenticado" });
     }
