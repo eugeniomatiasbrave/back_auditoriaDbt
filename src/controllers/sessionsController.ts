@@ -94,8 +94,9 @@ export default class SessionController {
       res
         .cookie("token", token, {
           httpOnly: true,
-          secure: process.env.NODE_ENV === "production", // <-- aquí
-          sameSite: "strict",
+          secure: true, // <- Solo en HTTPS
+          sameSite: "none", // <- Para cross-site
+          path: "/",
         })
         .status(200)
         .json({
